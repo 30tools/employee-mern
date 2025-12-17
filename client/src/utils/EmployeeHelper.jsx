@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button"
 
 export const fetchEmployees = async () => {
     let employees = [];
@@ -43,29 +44,35 @@ export const EmployeeButtons = ({ Id }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex space-x-3">
-            <button
-                className="px-3 py-1 bg-teal-600 text-white rounded"
+        <div className="flex space-x-2 justify-center">
+            <Button
+                variant="outline"
+                size="sm"
                 onClick={() => navigate(`/admin-dashboard/employees/${Id}`)}
             >
                 View
-            </button>
-            <button
-                className="px-3 py-1 bg-blue-600 text-white rounded"
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                className="bg-blue-50 text-blue-600 hover:bg-blue-100 border-blue-200"
                 onClick={() => navigate(`/admin-dashboard/employees/edit/${Id}`)}
             >
                 Edit
-            </button>
-            <button
-                className="px-3 py-1 bg-yellow-600 text-white rounded"
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                className="bg-yellow-50 text-yellow-600 hover:bg-yellow-100 border-yellow-200"
             >
                 Salary
-            </button>
-            <button
-                className="px-3 py-1 bg-red-600 text-white rounded"
+            </Button>
+            <Button
+                variant="destructive"
+                size="sm"
             >
                 Leave
-            </button>
+            </Button>
         </div>
     );
 };

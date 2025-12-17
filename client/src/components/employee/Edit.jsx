@@ -3,6 +3,23 @@ import { fetchDepartments } from '../../utils/DepartmentHelper'
 import { getEmployees } from '../../utils/EmployeeHelper'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 
 const Edit = () => {
     const [departments, setDepartments] = useState([])
@@ -43,6 +60,10 @@ const Edit = () => {
         setEmployee({ ...employee, [name]: value })
     }
 
+    const handleSelectChange = (name, value) => {
+        setEmployee({ ...employee, [name]: value })
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -63,52 +84,94 @@ const Edit = () => {
     }
 
     return (
-        <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
-            <h2 className='text-2xl font-bold mb-6'>Edit Employee</h2>
-            <form onSubmit={handleSubmit}>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    {/* Name */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Name</label>
-                        <input type="text" name="name" value={employee.name} onChange={handleChange} placeholder='Insert Name' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+        <div className='flex justify-center pt-8 pb-8'>
+            <Card className="w-full max-w-4xl">
+                <CardHeader>
+                    <CardTitle>Edit Employee</CardTitle>
+                    <CardDescription>Update employee details.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                            {/* Name */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    name="name"
+                                    value={employee.name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                    {/* Marital Status */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Marital Status</label>
-                        <select name="maritalStatus" value={employee.maritalStatus} onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Status</option>
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                        </select>
-                    </div>
+                            {/* Marital Status */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="maritalStatus">Marital Status</Label>
+                                <Select
+                                    value={employee.maritalStatus}
+                                    onValueChange={(value) => handleSelectChange("maritalStatus", value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="single">Single</SelectItem>
+                                        <SelectItem value="married">Married</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Designation */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Designation</label>
-                        <input type="text" name="designation" value={employee.designation} onChange={handleChange} placeholder='Designation' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Designation */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="designation">Designation</Label>
+                                <Input
+                                    id="designation"
+                                    type="text"
+                                    name="designation"
+                                    value={employee.designation}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                    {/* Department */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Department</label>
-                        <select name="department" value={employee.department} onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Department</option>
-                            {departments.map(dep => (
-                                <option key={dep._id} value={dep._id}>{dep.dep_name}</option>
-                            ))}
-                        </select>
-                    </div>
+                            {/* Department */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="department">Department</Label>
+                                <Select
+                                    value={employee.department}
+                                    onValueChange={(value) => handleSelectChange("department", value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Department" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {departments.map(dep => (
+                                            <SelectItem key={dep._id} value={dep._id}>{dep.dep_name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Salary */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Salary</label>
-                        <input type="number" name="salary" value={employee.salary} onChange={handleChange} placeholder='Salary' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
-                </div>
+                            {/* Salary */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="salary">Salary</Label>
+                                <Input
+                                    id="salary"
+                                    type="number"
+                                    name="salary"
+                                    value={employee.salary}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        </div>
 
-                <button type="submit" className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded'>Edit Employee</button>
-            </form>
+                        <Button type="submit" className="w-full">Update Employee</Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     )
 }

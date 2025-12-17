@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import 'dotenv/config'
 import { connectToDatabase } from './db/db.js';
 import authRouter from './routes/auth.js'
 import departmentRouter from './routes/department.js'
@@ -10,7 +11,10 @@ const PORT = process.env.PORT || 5000;
 
 connectToDatabase();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/api/auth', authRouter)

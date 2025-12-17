@@ -2,6 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { fetchDepartments } from '../../utils/DepartmentHelper'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 
 const Add = () => {
     const [departments, setDepartments] = useState([])
@@ -23,6 +40,10 @@ const Add = () => {
         } else {
             setFormData({ ...formData, [name]: value })
         }
+    }
+
+    const handleSelectChange = (name, value) => {
+        setFormData({ ...formData, [name]: value })
     }
 
     const handleSubmit = async (e) => {
@@ -50,103 +71,181 @@ const Add = () => {
     }
 
     return (
-        <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
-            <h2 className='text-2xl font-bold mb-6'>Add New Employee</h2>
-            <form onSubmit={handleSubmit}>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    {/* Name */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Name</label>
-                        <input type="text" name="name" onChange={handleChange} placeholder='Insert Name' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+        <div className='flex justify-center pt-8 pb-8'>
+            <Card className="w-full max-w-4xl">
+                <CardHeader>
+                    <CardTitle>Add New Employee</CardTitle>
+                    <CardDescription>Enter details to create a new employee.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                            {/* Name */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    name="name"
+                                    onChange={handleChange}
+                                    placeholder='Insert Name'
+                                    required
+                                />
+                            </div>
 
-                    {/* Email */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Email</label>
-                        <input type="email" name="email" onChange={handleChange} placeholder='Insert Email' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Email */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    placeholder='Insert Email'
+                                    required
+                                />
+                            </div>
 
-                    {/* Employee ID */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Employee ID</label>
-                        <input type="text" name="employeeId" onChange={handleChange} placeholder='Employee ID' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Employee ID */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="employeeId">Employee ID</Label>
+                                <Input
+                                    id="employeeId"
+                                    type="text"
+                                    name="employeeId"
+                                    onChange={handleChange}
+                                    placeholder='Employee ID'
+                                    required
+                                />
+                            </div>
 
-                    {/* Date of Birth */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Date of Birth</label>
-                        <input type="date" name="dob" onChange={handleChange} placeholder='DOB' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Date of Birth */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="dob">Date of Birth</Label>
+                                <Input
+                                    id="dob"
+                                    type="date"
+                                    name="dob"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                    {/* Gender */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Gender</label>
-                        <select name="gender" onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                            {/* Gender */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="gender">Gender</Label>
+                                <Select onValueChange={(value) => handleSelectChange("gender", value)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Gender" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="male">Male</SelectItem>
+                                        <SelectItem value="female">Female</SelectItem>
+                                        <SelectItem value="other">Other</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Marital Status */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Marital Status</label>
-                        <select name="maritalStatus" onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Status</option>
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                        </select>
-                    </div>
+                            {/* Marital Status */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="maritalStatus">Marital Status</Label>
+                                <Select onValueChange={(value) => handleSelectChange("maritalStatus", value)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="single">Single</SelectItem>
+                                        <SelectItem value="married">Married</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Designation */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Designation</label>
-                        <input type="text" name="designation" onChange={handleChange} placeholder='Designation' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Designation */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="designation">Designation</Label>
+                                <Input
+                                    id="designation"
+                                    type="text"
+                                    name="designation"
+                                    onChange={handleChange}
+                                    placeholder='Designation'
+                                    required
+                                />
+                            </div>
 
-                    {/* Department */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Department</label>
-                        <select name="department" onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Department</option>
-                            {departments.map(dep => (
-                                <option key={dep._id} value={dep._id}>{dep.dep_name}</option>
-                            ))}
-                        </select>
-                    </div>
+                            {/* Department */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="department">Department</Label>
+                                <Select onValueChange={(value) => handleSelectChange("department", value)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Department" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {departments.map(dep => (
+                                            <SelectItem key={dep._id} value={dep._id}>{dep.dep_name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Salary */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Salary</label>
-                        <input type="number" name="salary" onChange={handleChange} placeholder='Salary' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Salary */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="salary">Salary</Label>
+                                <Input
+                                    id="salary"
+                                    type="number"
+                                    name="salary"
+                                    onChange={handleChange}
+                                    placeholder='Salary'
+                                    required
+                                />
+                            </div>
 
-                    {/* Password */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Password</label>
-                        <input type="password" name="password" onChange={handleChange} placeholder='******' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required />
-                    </div>
+                            {/* Password */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    placeholder='******'
+                                    required
+                                />
+                            </div>
 
-                    {/* Role */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Role</label>
-                        <select name="role" onChange={handleChange} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' required>
-                            <option value="">Select Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="employee">Employee</option>
-                        </select>
-                    </div>
+                            {/* Role */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="role">Role</Label>
+                                <Select onValueChange={(value) => handleSelectChange("role", value)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="admin">Admin</SelectItem>
+                                        <SelectItem value="employee">Employee</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                    {/* Image Upload */}
-                    <div>
-                        <label className='block text-sm font-medium text-gray-700'>Upload Image</label>
-                        <input type="file" name="image" onChange={handleChange} placeholder='Upload Image' className='mt-1 p-2 block w-full border border-gray-300 rounded-md' accept="image/*" />
-                    </div>
-                </div>
+                            {/* Image Upload */}
+                            <div className='space-y-2'>
+                                <Label htmlFor="image">Upload Image</Label>
+                                <Input
+                                    id="image"
+                                    type="file"
+                                    name="image"
+                                    onChange={handleChange}
+                                    accept="image/*"
+                                    className="cursor-pointer"
+                                />
+                            </div>
+                        </div>
 
-                <button type="submit" className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded'>Add Employee</button>
-            </form>
+                        <Button type="submit" className="w-full">Add Employee</Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     )
 }

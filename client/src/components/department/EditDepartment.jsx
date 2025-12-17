@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 
 const EditDepartment = () => {
     const { id } = useParams()
@@ -58,22 +69,41 @@ const EditDepartment = () => {
     }
 
     return (
-        <>{depLoading ? <div>Loading...</div> :
-            <div className='max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md w-96'>
-                <h2 className='text-2xl font-bold mb-6'>Edit Department</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className='mb-4'>
-                        <label htmlFor="dep_name" className='text-sm font-medium text-gray-700'>Department Name</label>
-                        <input type="text" name="dep_name" onChange={handleChange} value={department.dep_name} placeholder='Enter Dep Name' className='mt-1 w-full p-2 border border-gray-300 rounded-md' required />
-                    </div>
-                    <div className='mb-4'>
-                        <label htmlFor="description" className='text-sm font-medium text-gray-700'>Description</label>
-                        <textarea name="description" placeholder='Description' onChange={handleChange} value={department.description} className='mt-1 p-2 block w-full border border-gray-300 rounded-md' rows="4" />
-                    </div>
-                    <button type="submit" className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded'>Edit Department</button>
-                </form>
-            </div>
-        }</>
+        <div className='flex justify-center pt-10'>
+            {depLoading ? <div className='text-center'>Loading...</div> :
+                <Card className="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Edit Department</CardTitle>
+                        <CardDescription>Update department details.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className='space-y-1.5'>
+                                <Label htmlFor="dep_name">Department Name</Label>
+                                <Input
+                                    id="dep_name"
+                                    name="dep_name"
+                                    value={department.dep_name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className='space-y-1.5'>
+                                <Label htmlFor="description">Description</Label>
+                                <Textarea
+                                    id="description"
+                                    name="description"
+                                    value={department.description}
+                                    onChange={handleChange}
+                                    rows={4}
+                                />
+                            </div>
+                            <Button type="submit" className="w-full">Update Department</Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            }
+        </div>
     )
 }
 

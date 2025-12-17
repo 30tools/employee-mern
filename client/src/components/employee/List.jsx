@@ -2,6 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EmployeeButtons } from '../../utils/EmployeeHelper'
 import axios from 'axios'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const List = () => {
     const [employees, setEmployees] = useState([])
@@ -9,7 +20,7 @@ const List = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState('');
-    const [limit, setLimit] = useState(5); // Items per page
+    const [limit, setLimit] = useState(5);
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -38,66 +49,83 @@ const List = () => {
             }
         }
         fetchEmployees()
-    }, [page, limit, search]) // Debounce search in real app
+    }, [page, limit, search])
 
     const handleSearch = (e) => {
         setSearch(e.target.value)
-        setPage(1) // Reset to page 1 on search
+        setPage(1)
     }
 
     return (
-        <div className='p-6'>
+        <div className='p-6 space-y-6'>
             <div className='text-center'>
-                <h3 className='text-2xl font-bold'>Manage Employees</h3>
+                <h3 className='text-2xl font-bold tracking-tight'>Manage Employees</h3>
             </div>
-            <div className='flex justify-between items-center mt-6'>
-                <input type="text" placeholder='Search By Name' onChange={handleSearch} className='px-4 py-0.5 border' />
-                <Link to="/admin-dashboard/add-employee" className='px-4 py-1 bg-teal-600 rounded text-white'>Add New Employee</Link>
+            <div className='flex justify-between items-center'>
+                <Input
+                    type="text"
+                    placeholder='Search By Name'
+                    onChange={handleSearch}
+                    className='w-[300px]'
+                />
+                <Link to="/admin-dashboard/add-employee">
+                    <Button>Add New Employee</Button>
+                </Link>
             </div>
-            <div className='mt-6 border rounded-lg overflow-hidden shadow-lg border-gray-200'>
-                <table className='min-w-full text-center'>
-                    <thead className='bg-gray-100 text-gray-700 uppercase'>
-                        <tr>
-                            <th className='py-2'>S No</th>
-                            <th className='py-2'>Image</th>
-                            <th className='py-2'>Name</th>
-                            <th className='py-2'>DOB</th>
-                            <th className='py-2'>Dep Name</th>
-                            <th className='py-2'>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {empLoading ? <tr><td colSpan="6" className="py-4">Loading...</td></tr> :
+            <div className='rounded-md border'>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[80px] text-center">S No</TableHead>
+                            <TableHead className="text-center">Image</TableHead>
+                            <TableHead className="text-center">Name</TableHead>
+                            <TableHead className="text-center">DOB</TableHead>
+                            <TableHead className="text-center">Dep Name</TableHead>
+                            <TableHead className="text-center">Action</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {empLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">Loading...</TableCell>
+                            </TableRow>
+                        ) : (
                             employees.map((emp, index) => (
-                                <tr key={emp._id} className='bg-white border-b'>
-                                    <td className='py-3 border'>{(page - 1) * limit + index + 1}</td>
-                                    <td className='py-3 border flex justify-center'>
-                                        <img src={`http://localhost:5000/uploads/${emp.userId.profileImage}`} alt="" className='w-10 h-10 rounded-full object-cover' />
-                                    </td>
-                                    <td className='py-3 border'>{emp.userId.name}</td>
-                                    <td className='py-3 border'>{new Date(emp.dob).toLocaleDateString()}</td>
-                                    <td className='py-3 border'>{emp.department.dep_name}</td>
-                                    <td className='py-3 border'>
+                                <TableRow key={emp._id}>
+                                    <TableCell className="text-center">{(page - 1) * limit + index + 1}</TableCell>
+                                    <TableCell className="flex justify-center">
+                                        <Avatar>
+                                            <AvatarImage src={`http://localhost:5000/uploads/${emp.userId.profileImage}`} alt={emp.userId.name} className="object-cover" />
+                                            <AvatarFallback>{emp.userId.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell className="text-center">{emp.userId.name}</TableCell>
+                                    <TableCell className="text-center">{new Date(emp.dob).toLocaleDateString()}</TableCell>
+                                    <TableCell className="text-center">{emp.department.dep_name}</TableCell>
+                                    <TableCell className="text-center">
                                         <EmployeeButtons Id={emp._id} />
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
             </div>
             {/* Pagination Controls */}
-            <div className='flex justify-center mt-4 space-x-2'>
-                <button
+            <div className='flex justify-center items-center space-x-2 pt-4'>
+                <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => setPage(page > 1 ? page - 1 : 1)}
                     disabled={page === 1}
-                    className={`px-3 py-1 rounded ${page === 1 ? 'bg-gray-300' : 'bg-teal-600 text-white'}`}
-                >Prev</button>
-                <span className='px-3 py-1'>{page} / {totalPages}</span>
-                <button
+                >Prev</Button>
+                <span className='text-sm'>{page} / {totalPages}</span>
+                <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => setPage(page < totalPages ? page + 1 : totalPages)}
                     disabled={page === totalPages}
-                    className={`px-3 py-1 rounded ${page === totalPages ? 'bg-gray-300' : 'bg-teal-600 text-white'}`}
-                >Next</button>
+                >Next</Button>
             </div>
         </div>
     )
