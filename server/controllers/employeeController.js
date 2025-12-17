@@ -67,8 +67,52 @@ const addEmployee = async (req, res) => {
 
 const getEmployees = async (req, res) => {
     try {
-        const employees = await Employee.find().populate('userId', { password: 0 }).populate("department")
-        return res.status(200).json({ success: true, employees })
+        const { page, limit, sortBy, sortOrder, search, department } = req.query;
+
+        // Pagination
+        const pageNumber = parseInt(page) || 1;
+        const pageSize = parseInt(limit) || 10;
+        const skip = (pageNumber - 1) * pageSize;
+
+        // Search
+        let query = {};
+        if (search) {
+            // We need to search by name which is in the User model (populated)
+            // This is tricky with population. A better approach for simple apps:
+            // 1. Find users matching name
+            // 2. Find employees with those userIds
+            // OR
+            // 3. For small datasets, filter in memory (not efficient for large)
+
+            // Let's go with option 1:
+            const users = await User.find({ name: { $regex: search, $options: 'i' } });
+            const userIds = users.map(user => user._id);
+            query.userId = { $in: userIds };
+        }
+
+        // Filter by Department
+        if (department) {
+            query.department = department;
+        }
+
+        const employees = await Employee.find(query)
+            .populate('userId', { password: 0 })
+            .populate("department")
+            .skip(skip)
+            .limit(pageSize);
+
+        const totalEmployees = await Employee.countDocuments(query);
+
+        return res.status(200).json({
+            success: true,
+            employees,
+            pagination: {
+                currentPage: pageNumber,
+                pageSize,
+                totalEmployees,
+                totalPages: Math.ceil(totalEmployees / pageSize)
+            }
+        })
     } catch (err) {
         return res.status(500).json({ success: false, error: "get employees server error" })
     }
