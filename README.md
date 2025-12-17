@@ -24,7 +24,7 @@ This project allows Admin users to manage departments, employees, and view summa
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/30tools/employee-mern.git
 cd employee-mern
 ```
 
