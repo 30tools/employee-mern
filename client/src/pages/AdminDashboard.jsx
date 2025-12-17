@@ -1,6 +1,14 @@
 import React from 'react'
 import { useAuth } from '../context/authContext'
-import { Outlet } from 'react-router-dom'
+import { Routes, Route, useNavigate, Link } from 'react-router-dom'
+import DepartmentList from '../components/department/DepartmentList'
+import AddDepartment from '../components/department/AddDepartment'
+import EditDepartment from '../components/department/EditDepartment'
+import Summary from '../components/dashboard/AdminSummary'  // Placeholder for now
+import List from '../components/employee/List' // Placeholder 
+import Add from '../components/employee/Add' // Placeholder 
+import View from '../components/employee/View' // Placeholder 
+import Edit from '../components/employee/Edit' // Placeholder
 
 const AdminDashboard = () => {
     const { user } = useAuth()
@@ -13,11 +21,11 @@ const AdminDashboard = () => {
                     Admin Panel
                 </div>
                 <nav className='flex-1 px-2 py-4 space-y-2'>
-                    <a href="#" className='block px-4 py-2 rounded hover:bg-gray-700'>Dashboard</a>
-                    <a href="#" className='block px-4 py-2 rounded hover:bg-gray-700'>Employees</a>
-                    <a href="#" className='block px-4 py-2 rounded hover:bg-gray-700'>Departments</a>
-                    <a href="#" className='block px-4 py-2 rounded hover:bg-gray-700'>Profile</a>
-                    <a href="#" className='block px-4 py-2 rounded hover:bg-gray-700'>Settings</a>
+                    <Link to="/admin-dashboard" className='block px-4 py-2 rounded hover:bg-gray-700'>Dashboard</Link>
+                    <Link to="/admin-dashboard/employees" className='block px-4 py-2 rounded hover:bg-gray-700'>Employees</Link>
+                    <Link to="/admin-dashboard/departments" className='block px-4 py-2 rounded hover:bg-gray-700'>Departments</Link>
+                    <Link to="/admin-dashboard/profile" className='block px-4 py-2 rounded hover:bg-gray-700'>Profile</Link>
+                    <Link to="/admin-dashboard/settings" className='block px-4 py-2 rounded hover:bg-gray-700'>Settings</Link>
                 </nav>
             </div>
 
@@ -31,8 +39,16 @@ const AdminDashboard = () => {
 
                 {/* Content */}
                 <main className='flex-1 overflow-auto p-6'>
-                    <Outlet />
-                    <div className='text-center mt-10'>Dashboard Overview (Charts/Stats Placeholder)</div>
+                    <Routes>
+                        <Route path="/" element={<Summary />} />
+                        <Route path="/departments" element={<DepartmentList />} />
+                        <Route path="/add-department" element={<AddDepartment />} />
+                        <Route path="/department/:id" element={<EditDepartment />} />
+                        <Route path="/employees" element={<List />} />
+                        <Route path="/add-employee" element={<Add />} />
+                        <Route path="/employees/:id" element={<View />} />
+                        <Route path="/employees/edit/:id" element={<Edit />} />
+                    </Routes>
                 </main>
             </div>
         </div>
