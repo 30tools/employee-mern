@@ -1,8 +1,19 @@
-# React + Vite
+# Employee Management System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the Employee Management System, built with React and Vite.
 
-Currently, two official plugins are available:
+## Dependencies
+- `react-router-dom`: For routing
+- `axios`: For API requests
+- `tailwindcss`: For styling
+- `react-icons`: For icons
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Structure
+- `src/context`: Authentication context
+- `src/pages`: Main pages (Login, Dashboard)
+- `src/components`: Reusable components (Employee List, Department List, Forms)
+- `src/utils`: Helper functions and private routes
+
+## Run Locally
+1. `npm install`
+2. `npm run dev`
