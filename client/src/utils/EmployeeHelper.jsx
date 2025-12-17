@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 export const fetchEmployees = async () => {
     let employees = [];
     try {
-        const response = await axios.get("http://localhost:5000/api/employee", {
+        const response = await axios.get("http://localhost:5001/api/employee", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -24,7 +24,7 @@ export const fetchEmployees = async () => {
 export const getEmployees = async (id) => {
     let employee;
     try {
-        const response = await axios.get(`http://localhost:5000/api/employee/${id}`, {
+        const response = await axios.get(`http://localhost:5001/api/employee/${id}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

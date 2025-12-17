@@ -26,7 +26,7 @@ const List = () => {
         const fetchEmployees = async () => {
             setEmpLoading(true)
             try {
-                const response = await axios.get('http://localhost:5000/api/employee', {
+                const response = await axios.get('http://localhost:5001/api/employee', {
                     headers: {
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     },
@@ -95,7 +95,7 @@ const List = () => {
                                     <TableCell className="text-center">{(page - 1) * limit + index + 1}</TableCell>
                                     <TableCell className="flex justify-center">
                                         <Avatar>
-                                            <AvatarImage src={`http://localhost:5000/uploads/${emp.userId.profileImage}`} alt={emp.userId.name} className="object-cover" />
+                                            <AvatarImage src={`http://localhost:5001/uploads/${emp.userId.profileImage}`} alt={emp.userId.name} className="object-cover" />
                                             <AvatarFallback>{emp.userId.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                     </TableCell>

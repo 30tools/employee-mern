@@ -92,7 +92,7 @@ const AdminDashboard = () => {
                             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                 <Avatar className="h-8 w-8">
                                     {/* Placeholder for user image if available */}
-                                    <AvatarImage src={`http://localhost:5000/uploads/${user?.profileImage}`} alt={user?.name} />
+                                    <AvatarImage src={`http://localhost:5001/uploads/${user?.profileImage}`} alt={user?.name} />
                                     <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
                                 </Avatar>
                             </Button>

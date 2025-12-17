@@ -36,7 +36,7 @@ const View = () => {
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
                         <div className='flex justify-center items-center'>
                             <Avatar className="w-72 h-72 rounded-full border-4 border-gray-100">
-                                <AvatarImage src={`http://localhost:5000/uploads/${employee.userId.profileImage}`} alt={employee.userId.name} className="object-cover" />
+                                <AvatarImage src={`http://localhost:5001/uploads/${employee.userId.profileImage}`} alt={employee.userId.name} className="object-cover" />
                                 <AvatarFallback className="text-6xl">{employee.userId.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                         </div>
